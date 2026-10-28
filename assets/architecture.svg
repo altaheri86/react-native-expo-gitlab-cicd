@@ -1,0 +1,212 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1060" width="1600" height="1060" font-family="Segoe UI, Helvetica, Arial, sans-serif" role="img" aria-label="React Native and Expo GitLab CI/CD architecture: developers push to GitLab; a shell runner builds Android APK and AAB locally inside a Docker builder image with an SSD cache; iOS builds run in Expo EAS cloud and go to TestFlight; the production AAB is submitted to Google Play and Huawei AppGallery; the bottom strip shows the ten pipeline steps.">
+  <defs>
+    <marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#5b6478"/></marker>
+    <marker id="ao" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#e2561b"/></marker>
+    <marker id="ag" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#1f8a4c"/></marker>
+    <marker id="ab" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#4630eb"/></marker>
+    <symbol id="person" viewBox="0 0 40 40"><circle cx="20" cy="12" r="8" fill="#8a93a6"/><path d="M4,38 C4,26 36,26 36,38 z" fill="#8a93a6"/></symbol>
+    <symbol id="server" viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="7" rx="1.5" fill="none" stroke="#fff" stroke-width="2"/><rect x="2" y="14" width="20" height="7" rx="1.5" fill="none" stroke="#fff" stroke-width="2"/><circle cx="6" cy="6.5" r="1.3" fill="#fff"/><circle cx="6" cy="17.5" r="1.3" fill="#fff"/></symbol>
+    <symbol id="shield" viewBox="0 0 24 24"><path d="M12,2 L21,6 V12 C21,17 17,21 12,22 C7,21 3,17 3,12 V6 z" fill="none" stroke="#fff" stroke-width="2"/><path d="M8,12 L11,15 L16,9" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round"/></symbol>
+    <symbol id="lock" viewBox="0 0 24 24"><rect x="4" y="10" width="16" height="12" rx="2" fill="none" stroke="#fff" stroke-width="2"/><path d="M8,10 V7 a4,4 0 0 1 8,0 V10" fill="none" stroke="#fff" stroke-width="2"/></symbol>
+    <symbol id="check" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="none" stroke="#fff" stroke-width="2"/><path d="M7,12 L11,16 L17,8" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round"/></symbol>
+    <symbol id="branch" viewBox="0 0 24 24"><circle cx="6" cy="5" r="2.5" fill="none" stroke="#fff" stroke-width="2"/><circle cx="6" cy="19" r="2.5" fill="none" stroke="#fff" stroke-width="2"/><circle cx="18" cy="8" r="2.5" fill="none" stroke="#fff" stroke-width="2"/><path d="M6,7.5 V16.5 M18,10.5 C18,15 9,13 6.8,16.8" fill="none" stroke="#fff" stroke-width="2"/></symbol>
+    <symbol id="term" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2" fill="none" stroke="#fff" stroke-width="2"/><path d="M6,9 L9.5,12 L6,15 M11,15 H17" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"/></symbol>
+    <symbol id="phone" viewBox="0 0 24 24"><rect x="6" y="2" width="12" height="20" rx="2.5" fill="none" stroke="#fff" stroke-width="2"/><path d="M10,18.5 H14" stroke="#fff" stroke-width="2" stroke-linecap="round"/></symbol>
+    <symbol id="cloud" viewBox="0 0 24 24"><path d="M7,18 H17.5 a4.5,4.5 0 0 0 0,-9 a6,6 0 0 0 -11.3,1.5 A4,4 0 0 0 7,18 z" fill="none" stroke="#fff" stroke-width="2" stroke-linejoin="round"/></symbol>
+    <symbol id="box" viewBox="0 0 24 24"><path d="M12,2 L21,7 V17 L12,22 L3,17 V7 z M3,7 L12,12 L21,7 M12,12 V22" fill="none" stroke="#fff" stroke-width="2" stroke-linejoin="round"/></symbol>
+    <symbol id="bag" viewBox="0 0 24 24"><path d="M4,8 H20 L19,21 H5 z" fill="none" stroke="#fff" stroke-width="2" stroke-linejoin="round"/><path d="M8.5,8 V6 a3.5,3.5 0 0 1 7,0 V8" fill="none" stroke="#fff" stroke-width="2"/></symbol>
+    <symbol id="disk" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2" fill="none" stroke="#fff" stroke-width="2"/><path d="M3,14 H21" stroke="#fff" stroke-width="2"/><circle cx="17" cy="17" r="1.3" fill="#fff"/></symbol>
+    <symbol id="docker" viewBox="0 0 24 24"><path d="M2,12 H20 C20,17 16,20 10,20 C5,20 2.5,16 2,12 z" fill="none" stroke="#fff" stroke-width="2" stroke-linejoin="round"/><rect x="5" y="8" width="3" height="3" fill="#fff"/><rect x="9" y="8" width="3" height="3" fill="#fff"/><rect x="13" y="8" width="3" height="3" fill="#fff"/><rect x="9" y="4" width="3" height="3" fill="#fff"/></symbol>
+    <symbol id="bolt" viewBox="0 0 24 24"><path d="M13,2 L4,14 H11 L10,22 L20,9 H13 z" fill="none" stroke="#fff" stroke-width="2" stroke-linejoin="round"/></symbol>
+  </defs>
+
+  <rect x="0" y="0" width="1600" height="1060" fill="#ffffff"/>
+  <rect x="12" y="12" width="1576" height="1036" rx="18" fill="none" stroke="#d7dce5" stroke-width="2"/>
+
+  <text x="800" y="62" text-anchor="middle" font-size="38" font-weight="700" font-style="italic" fill="#1b2340">React Native · Expo CI/CD</text>
+  <text x="800" y="94" text-anchor="middle" font-size="18" font-style="italic" fill="#5b6478">One GitLab pipeline → Google Play, Huawei AppGallery and the App Store · DevOps portfolio</text>
+
+  <!-- developers -->
+  <use href="#person" x="58" y="150" width="34" height="34"/><use href="#person" x="88" y="140" width="40" height="40"/><use href="#person" x="124" y="150" width="34" height="34"/>
+  <text x="108" y="208" text-anchor="middle" font-size="15" font-weight="600" fill="#1b2340">Mobile developers</text>
+  <text x="108" y="226" text-anchor="middle" font-size="12" fill="#5b6478">feature/* · dev-* · main</text>
+  <path d="M160,190 C190,190 200,195 238,195" fill="none" stroke="#5b6478" stroke-width="1.6" marker-end="url(#ar)"/>
+  <text x="168" y="180" font-size="11" fill="#5b6478">push · MR</text>
+  <rect x="44" y="300" width="130" height="150" rx="12" fill="#f6f8fb" stroke="#c9d1dc"/>
+  <rect x="91" y="314" width="36" height="36" rx="9" fill="#1b2340"/><use href="#phone" x="97" y="320" width="24" height="24"/>
+  <text x="109" y="372" text-anchor="middle" font-size="13" font-weight="700" fill="#1b2340">The app</text>
+  <text x="109" y="390" text-anchor="middle" font-size="11" fill="#5b6478">React Native 0.81</text>
+  <text x="109" y="406" text-anchor="middle" font-size="11" fill="#5b6478">Expo SDK 54</text>
+  <text x="109" y="422" text-anchor="middle" font-size="11" fill="#5b6478">React 19 · Redux TK</text>
+  <text x="109" y="438" text-anchor="middle" font-size="11" fill="#5b6478">Android · iOS</text>
+
+  <!-- GitLab panel -->
+  <rect x="220" y="120" width="340" height="400" rx="14" fill="#fff7f2" stroke="#e2561b" stroke-width="1.8" stroke-dasharray="7 5"/>
+  <polygon points="244,128 252,150 260,128 268,150 276,128 282,146 260,164 238,146" fill="#e2561b"/>
+  <text x="292" y="150" font-size="16" font-weight="700" fill="#1b2340">GitLab CE · self-managed</text>
+  <rect x="240" y="172" width="300" height="62" rx="10" fill="#ffffff" stroke="#f0b49a"/>
+  <rect x="252" y="185" width="36" height="36" rx="8" fill="#61dafb"/><use href="#phone" x="258" y="191" width="24" height="24"/>
+  <text x="298" y="199" font-size="14" font-weight="600" fill="#1b2340">mobile app repository</text>
+  <text x="298" y="217" font-size="11.5" fill="#5b6478">Expo · EAS · fastlane config</text>
+  <rect x="240" y="246" width="94" height="40" rx="8" fill="#ffffff" stroke="#f0b49a"/><text x="287" y="264" text-anchor="middle" font-size="11.5" font-weight="600" fill="#1b2340">Merge</text><text x="287" y="278" text-anchor="middle" font-size="11.5" font-weight="600" fill="#1b2340">Requests</text>
+  <rect x="343" y="246" width="94" height="40" rx="8" fill="#ffffff" stroke="#f0b49a"/><text x="390" y="264" text-anchor="middle" font-size="11.5" font-weight="600" fill="#1b2340">Protected</text><text x="390" y="278" text-anchor="middle" font-size="11.5" font-weight="600" fill="#1b2340">main</text>
+  <rect x="446" y="246" width="94" height="40" rx="8" fill="#ffffff" stroke="#f0b49a"/><text x="493" y="264" text-anchor="middle" font-size="11.5" font-weight="600" fill="#1b2340">Masked CI</text><text x="493" y="278" text-anchor="middle" font-size="11.5" font-weight="600" fill="#1b2340">variables</text>
+  <rect x="240" y="306" width="300" height="62" rx="10" fill="#e2561b"/>
+  <text x="390" y="332" text-anchor="middle" font-size="15" font-weight="700" fill="#ffffff">.gitlab-ci.yml · 8 stages</text>
+  <text x="390" y="353" text-anchor="middle" font-size="11.5" fill="#ffe3d6">test → image → apk → cloud → TestFlight → aab → stores</text>
+  <line x1="320" y1="368" x2="320" y2="398" stroke="#e2561b" stroke-width="1.6" marker-end="url(#ao)"/>
+  <line x1="462" y1="368" x2="462" y2="398" stroke="#e2561b" stroke-width="1.6" marker-end="url(#ao)"/>
+  <rect x="240" y="400" width="145" height="100" rx="10" fill="#ffffff" stroke="#2496ed" stroke-width="1.6"/>
+  <rect x="254" y="414" width="34" height="34" rx="8" fill="#2496ed"/><use href="#docker" x="260" y="420" width="22" height="22"/>
+  <text x="296" y="430" font-size="13" font-weight="700" fill="#1b2340">Docker</text><text x="296" y="446" font-size="13" font-weight="700" fill="#1b2340">runner</text>
+  <text x="254" y="470" font-size="11" fill="#5b6478">tests · SAST · secrets</text><text x="254" y="486" font-size="11" fill="#5b6478">TestFlight · AppGallery</text>
+  <rect x="395" y="400" width="145" height="100" rx="10" fill="#ffffff" stroke="#1b2340" stroke-width="1.6"/>
+  <rect x="409" y="414" width="34" height="34" rx="8" fill="#1b2340"/><use href="#term" x="415" y="420" width="22" height="22"/>
+  <text x="451" y="430" font-size="13" font-weight="700" fill="#1b2340">Shell</text><text x="451" y="446" font-size="13" font-weight="700" fill="#1b2340">runner</text>
+  <text x="409" y="470" font-size="11" fill="#5b6478">Android builds</text><text x="409" y="486" font-size="11" fill="#5b6478">docker run · SSD cache</text>
+
+  <path d="M540,430 H588 V206 H626" fill="none" stroke="#e2561b" stroke-width="2" marker-end="url(#ao)"/>
+  <text x="584" y="330" font-size="11.5" font-weight="600" fill="#e2561b" transform="rotate(-90 584 330)">docker run builder image</text>
+
+  <!-- build server -->
+  <rect x="610" y="120" width="500" height="580" rx="14" fill="#f2f7fd" stroke="#2496ed" stroke-width="1.8" stroke-dasharray="7 5"/>
+  <rect x="628" y="128" width="28" height="28" rx="6" fill="#2496ed"/><use href="#server" x="633" y="133" width="18" height="18"/>
+  <text x="666" y="148" font-size="16" font-weight="700" fill="#1b2340">Self-hosted Android build server</text>
+  <rect x="628" y="166" width="464" height="80" rx="10" fill="#1b2340"/>
+  <use href="#docker" x="642" y="180" width="28" height="28"/>
+  <text x="680" y="190" font-size="14" font-weight="700" fill="#ffffff">android-builder image</text>
+  <text x="680" y="208" font-size="11" fill="#c9d1e6">rebuilt only when Dockerfile or package*.json change</text>
+  <g font-size="11" font-weight="600" fill="#ffffff">
+    <rect x="680" y="216" width="80" height="22" rx="11" fill="#3c873a"/><text x="720" y="231" text-anchor="middle">Node 22</text>
+    <rect x="768" y="216" width="80" height="22" rx="11" fill="#e76f00"/><text x="808" y="231" text-anchor="middle">JDK 17</text>
+    <rect x="856" y="216" width="104" height="22" rx="11" fill="#3ddc84"/><text x="908" y="231" text-anchor="middle" fill="#0b3d1f">Android SDK 35</text>
+    <rect x="968" y="216" width="80" height="22" rx="11" fill="#4630eb"/><text x="1008" y="231" text-anchor="middle">EAS CLI</text>
+  </g>
+
+  <rect x="628" y="262" width="464" height="140" rx="12" fill="#ffffff" stroke="#9cc8ef" stroke-dasharray="5 4"/>
+  <rect x="644" y="276" width="30" height="30" rx="7" fill="#0f9d9a"/><use href="#disk" x="649" y="281" width="20" height="20"/>
+  <text x="684" y="291" font-size="14" font-weight="700" fill="#1b2340">SSD build cache</text>
+  <text x="684" y="306" font-size="11" fill="#5b6478">node_modules reused when the package-lock md5 matches</text>
+  <g font-size="11.5" font-weight="600" fill="#0b5654" text-anchor="middle">
+    <rect x="644" y="318" width="140" height="34" rx="8" fill="#e0f4f3"/><text x="714" y="340">node_modules</text>
+    <rect x="794" y="318" width="140" height="34" rx="8" fill="#e0f4f3"/><text x="864" y="340">Gradle caches</text>
+    <rect x="944" y="318" width="132" height="34" rx="8" fill="#e0f4f3"/><text x="1010" y="340">Android SDK</text>
+    <rect x="644" y="358" width="140" height="34" rx="8" fill="#e0f4f3"/><text x="714" y="380">npm cache</text>
+    <rect x="794" y="358" width="140" height="34" rx="8" fill="#e0f4f3"/><text x="864" y="380">Expo cache</text>
+    <rect x="944" y="358" width="132" height="34" rx="8" fill="#e0f4f3"/><text x="1010" y="380">EAS cache</text>
+  </g>
+
+  <rect x="628" y="418" width="464" height="82" rx="12" fill="#4630eb"/>
+  <use href="#bolt" x="642" y="432" width="28" height="28"/>
+  <text x="680" y="442" font-size="14" font-weight="700" fill="#ffffff">eas build --local (inside the container)</text>
+  <text x="680" y="461" font-size="11" fill="#dcd8ff">GRADLE_OPTS -Xmx6g · parallel · build cache · daemon off</text>
+  <text x="680" y="479" font-size="11" fill="#dcd8ff">profiles: preview → APK · production → AAB</text>
+  <line x1="740" y1="500" x2="740" y2="514" stroke="#4630eb" stroke-width="1.6" marker-end="url(#ab)"/>
+  <line x1="980" y1="500" x2="980" y2="514" stroke="#4630eb" stroke-width="1.6" marker-end="url(#ab)"/>
+
+  <rect x="628" y="516" width="224" height="84" rx="12" fill="#ffffff" stroke="#b8b0f5"/>
+  <rect x="644" y="532" width="34" height="34" rx="8" fill="#3ddc84"/><use href="#phone" x="650" y="538" width="22" height="22"/>
+  <text x="688" y="546" font-size="14" font-weight="700" fill="#1b2340">APK</text><text x="688" y="563" font-size="11" fill="#5b6478">any branch · ▶ manual</text>
+  <text x="644" y="588" font-size="11" fill="#5b6478">artifact app-&lt;branch&gt;.apk · 7 days</text>
+  <rect x="868" y="516" width="224" height="84" rx="12" fill="#ffffff" stroke="#b8b0f5"/>
+  <rect x="884" y="532" width="34" height="34" rx="8" fill="#1f8a4c"/><use href="#box" x="890" y="538" width="22" height="22"/>
+  <text x="928" y="546" font-size="14" font-weight="700" fill="#1b2340">AAB</text><text x="928" y="563" font-size="11" fill="#5b6478">main only · ▶ manual</text>
+  <text x="884" y="588" font-size="11" fill="#5b6478">signed store bundle → submit jobs</text>
+
+  <rect x="628" y="616" width="464" height="64" rx="12" fill="#ffffff" stroke="#c9d1dc"/>
+  <text x="644" y="640" font-size="12.5" font-weight="700" fill="#1b2340">cleanup-runner ▶</text>
+  <text x="644" y="660" font-size="11" fill="#5b6478">prune Docker builder cache · clear stale Gradle locks · free page cache</text>
+
+  <!-- to EAS cloud -->
+  <line x1="1092" y1="201" x2="1166" y2="201" stroke="#4630eb" stroke-width="2" marker-end="url(#ab)"/>
+  <text x="1117" y="194" font-size="11" font-weight="600" fill="#4630eb">EAS</text>
+  <!-- AAB to stores -->
+  <path d="M1092,558 H1128 V343" fill="none" stroke="#1f8a4c" stroke-width="2"/>
+  <line x1="1128" y1="343" x2="1166" y2="343" stroke="#1f8a4c" stroke-width="2" marker-end="url(#ag)"/>
+  <line x1="1128" y1="409" x2="1166" y2="409" stroke="#1f8a4c" stroke-width="2" marker-end="url(#ag)"/>
+  <text x="1144" y="470" font-size="11.5" font-weight="600" fill="#1f8a4c" transform="rotate(-90 1144 470)">.aab artifact</text>
+
+  <!-- cloud & stores -->
+  <rect x="1150" y="120" width="420" height="400" rx="14" fill="#f5f4ff" stroke="#4630eb" stroke-width="1.8" stroke-dasharray="7 5"/>
+  <rect x="1168" y="128" width="28" height="28" rx="6" fill="#4630eb"/><use href="#cloud" x="1173" y="133" width="18" height="18"/>
+  <text x="1206" y="148" font-size="16" font-weight="700" fill="#1b2340">Cloud build &amp; app stores</text>
+  <rect x="1170" y="166" width="380" height="70" rx="10" fill="#000020"/>
+  <use href="#cloud" x="1182" y="183" width="30" height="30"/>
+  <text x="1222" y="190" font-size="13.5" font-weight="700" fill="#fff">Expo EAS cloud · iOS build</text>
+  <text x="1222" y="208" font-size="11" fill="#c9cbe8">macOS Sequoia + Xcode image · --wait</text>
+  <text x="1222" y="224" font-size="11" fill="#c9cbe8">no Mac hardware needed</text>
+  <line x1="1360" y1="236" x2="1360" y2="250" stroke="#5b6478" stroke-width="1.6" marker-end="url(#ar)"/>
+  <rect x="1170" y="252" width="380" height="50" rx="10" fill="#0a84ff"/><use href="#bag" x="1182" y="265" width="24" height="24"/>
+  <text x="1216" y="273" font-size="13.5" font-weight="700" fill="#fff">App Store Connect · TestFlight</text><text x="1216" y="290" font-size="11" fill="#d8eaff">eas submit · API key written at runtime, then deleted</text>
+  <rect x="1170" y="318" width="380" height="50" rx="10" fill="#1f8a4c"/><use href="#bag" x="1182" y="331" width="24" height="24"/>
+  <text x="1216" y="339" font-size="13.5" font-weight="700" fill="#fff">Google Play</text><text x="1216" y="356" font-size="11" fill="#dff3e6">eas submit · production track · draft release</text>
+  <rect x="1170" y="384" width="380" height="50" rx="10" fill="#cf0a2c"/><use href="#bag" x="1182" y="397" width="24" height="24"/>
+  <text x="1216" y="405" font-size="13.5" font-weight="700" fill="#fff">Huawei AppGallery</text><text x="1216" y="422" font-size="11" fill="#ffd9df">fastlane · huawei_appgallery_connect plugin</text>
+  <rect x="1170" y="450" width="380" height="52" rx="10" fill="#ffffff" stroke="#b8b0f5"/>
+  <text x="1186" y="472" font-size="12" font-weight="700" fill="#1b2340">Over-the-air updates</text>
+  <text x="1186" y="490" font-size="11" fill="#5b6478">eas update → development · preview · production channels</text>
+
+  <!-- DevSecOps -->
+  <rect x="1150" y="540" width="420" height="160" rx="14" fill="#fff5f5" stroke="#d33a3a" stroke-width="1.8" stroke-dasharray="7 5"/>
+  <text x="1168" y="566" font-size="16" font-weight="700" fill="#1b2340">DevSecOps controls</text>
+  <g font-size="11.5" fill="#1b2340">
+    <rect x="1168" y="580" width="186" height="50" rx="9" fill="#ffffff" stroke="#f1b5b5"/><rect x="1178" y="590" width="30" height="30" rx="7" fill="#d33a3a"/><use href="#shield" x="1183" y="595" width="20" height="20"/>
+    <text x="1216" y="602" font-weight="600">Secret Detection</text><text x="1216" y="618" fill="#5b6478">+ Semgrep SAST</text>
+    <rect x="1366" y="580" width="186" height="50" rx="9" fill="#ffffff" stroke="#f1b5b5"/><rect x="1376" y="590" width="30" height="30" rx="7" fill="#d33a3a"/><use href="#lock" x="1381" y="595" width="20" height="20"/>
+    <text x="1414" y="602" font-weight="600">Runtime secrets</text><text x="1414" y="618" fill="#5b6478">envsubst · rm after use</text>
+    <rect x="1168" y="638" width="186" height="50" rx="9" fill="#ffffff" stroke="#f1b5b5"/><rect x="1178" y="648" width="30" height="30" rx="7" fill="#d33a3a"/><use href="#lock" x="1183" y="653" width="20" height="20"/>
+    <text x="1216" y="660" font-weight="600">.dockerignore</text><text x="1216" y="676" fill="#5b6478">no .jks / .p8 / .p12</text>
+    <rect x="1366" y="638" width="186" height="50" rx="9" fill="#ffffff" stroke="#f1b5b5"/><rect x="1376" y="648" width="30" height="30" rx="7" fill="#d33a3a"/><use href="#shield" x="1381" y="653" width="20" height="20"/>
+    <text x="1414" y="660" font-weight="600">Non-root builder</text><text x="1414" y="676" fill="#5b6478">UID matches runner</text>
+  </g>
+
+  <!-- branch map -->
+  <rect x="40" y="540" width="520" height="160" rx="14" fill="#f6f8fb" stroke="#c9d1dc"/>
+  <text x="58" y="566" font-size="16" font-weight="700" fill="#1b2340">Branch → release path</text>
+  <g font-size="12">
+    <rect x="58" y="582" width="96" height="24" rx="12" fill="#714b67"/><text x="106" y="599" text-anchor="middle" fill="#fff" font-weight="600">any branch</text>
+    <line x1="160" y1="594" x2="198" y2="594" stroke="#5b6478" stroke-width="1.5" marker-end="url(#ar)"/><text x="206" y="599" fill="#1b2340">test_job · build-image if dependencies changed</text>
+    <rect x="58" y="620" width="96" height="24" rx="12" fill="#2f6fde"/><text x="106" y="637" text-anchor="middle" fill="#fff" font-weight="600">feature / dev</text>
+    <line x1="160" y1="632" x2="198" y2="632" stroke="#5b6478" stroke-width="1.5" marker-end="url(#ar)"/><text x="206" y="637" fill="#1b2340">▶ APK for testers · ▶ iOS build → TestFlight</text>
+    <rect x="58" y="658" width="96" height="24" rx="12" fill="#1f8a4c"/><text x="106" y="675" text-anchor="middle" fill="#fff" font-weight="600">main</text>
+    <line x1="160" y1="670" x2="198" y2="670" stroke="#5b6478" stroke-width="1.5" marker-end="url(#ar)"/><text x="206" y="675" fill="#1b2340">▶ AAB → ▶ Google Play · ▶ Huawei AppGallery</text>
+  </g>
+
+  <!-- pipeline strip -->
+  <rect x="40" y="748" width="1530" height="170" rx="24" fill="#ffffff" stroke="#1b2340" stroke-width="1.6"/>
+  <g font-size="12.5" text-anchor="middle" fill="#1b2340">
+    <rect x="80" y="772" width="64" height="64" rx="14" fill="#f05033"/><use href="#branch" x="96" y="788" width="32" height="32"/>
+    <text x="112" y="860" font-weight="700">Git push</text><text x="112" y="877" font-size="11" fill="#5b6478">branch / MR</text>
+    <rect x="232" y="772" width="64" height="64" rx="14" fill="#d33a3a"/><use href="#shield" x="248" y="788" width="32" height="32"/>
+    <text x="264" y="860" font-weight="700">Test &amp; scan</text><text x="264" y="877" font-size="11" fill="#5b6478">node · SAST · secrets</text>
+    <rect x="384" y="772" width="64" height="64" rx="14" fill="#2496ed"/><use href="#docker" x="400" y="788" width="32" height="32"/>
+    <text x="416" y="860" font-weight="700">Builder image</text><text x="416" y="877" font-size="11" fill="#5b6478">on dependency change</text>
+    <rect x="536" y="772" width="64" height="64" rx="14" fill="#0f9d9a"/><use href="#disk" x="552" y="788" width="32" height="32"/>
+    <text x="568" y="860" font-weight="700">Restore cache</text><text x="568" y="877" font-size="11" fill="#5b6478">lockfile md5 check</text>
+    <rect x="688" y="772" width="64" height="64" rx="14" fill="#4630eb"/><use href="#bolt" x="704" y="788" width="32" height="32"/>
+    <text x="720" y="860" font-weight="700">EAS local build</text><text x="720" y="877" font-size="11" fill="#5b6478">APK ~19 min</text>
+    <rect x="840" y="772" width="64" height="64" rx="14" fill="#3ddc84"/><use href="#phone" x="856" y="788" width="32" height="32"/>
+    <text x="872" y="860" font-weight="700">APK artifact</text><text x="872" y="877" font-size="11" fill="#5b6478">testers · 7 days</text>
+    <rect x="992" y="772" width="64" height="64" rx="14" fill="#000020"/><use href="#cloud" x="1008" y="788" width="32" height="32"/>
+    <text x="1024" y="860" font-weight="700">EAS cloud iOS</text><text x="1024" y="877" font-size="11" fill="#5b6478">~11 min</text>
+    <rect x="1144" y="772" width="64" height="64" rx="14" fill="#0a84ff"/><use href="#bag" x="1160" y="788" width="32" height="32"/>
+    <text x="1176" y="860" font-weight="700">TestFlight</text><text x="1176" y="877" font-size="11" fill="#5b6478">eas submit</text>
+    <rect x="1296" y="772" width="64" height="64" rx="14" fill="#1f8a4c"/><use href="#box" x="1312" y="788" width="32" height="32"/>
+    <text x="1328" y="860" font-weight="700">Release AAB</text><text x="1328" y="877" font-size="11" fill="#5b6478">main · ~24 min</text>
+    <rect x="1448" y="772" width="64" height="64" rx="14" fill="#1f8a4c"/><use href="#check" x="1464" y="788" width="32" height="32"/>
+    <text x="1480" y="860" font-weight="700">Play + AppGallery</text><text x="1480" y="877" font-size="11" fill="#5b6478">~3 min each</text>
+  </g>
+  <g stroke="#1b2340" stroke-width="2" marker-end="url(#ar)">
+    <line x1="150" y1="804" x2="226" y2="804"/><line x1="302" y1="804" x2="378" y2="804"/><line x1="454" y1="804" x2="530" y2="804"/>
+    <line x1="606" y1="804" x2="682" y2="804"/><line x1="758" y1="804" x2="834" y2="804"/><line x1="910" y1="804" x2="986" y2="804"/>
+    <line x1="1062" y1="804" x2="1138" y2="804"/><line x1="1214" y1="804" x2="1290" y2="804"/><line x1="1366" y1="804" x2="1442" y2="804"/>
+  </g>
+  <text x="800" y="952" text-anchor="middle" font-size="26" font-weight="700" font-style="italic" fill="#1b2340">CI/CD Pipeline</text>
+
+  <g text-anchor="middle">
+    <text x="260" y="1004" font-size="24" font-weight="700" fill="#e2561b">650+</text><text x="260" y="1026" font-size="12" fill="#5b6478">pipelines run</text>
+    <text x="613" y="1004" font-size="24" font-weight="700" fill="#4630eb">3 stores</text><text x="613" y="1026" font-size="12" fill="#5b6478">from one pipeline</text>
+    <text x="966" y="1004" font-size="24" font-weight="700" fill="#1f8a4c">0 Macs</text><text x="966" y="1026" font-size="12" fill="#5b6478">iOS built in the cloud</text>
+    <text x="1319" y="1004" font-size="24" font-weight="700" fill="#2f6fde">89%</text><text x="1319" y="1026" font-size="12" fill="#5b6478">pipeline success rate</text>
+  </g>
+</svg>

@@ -1,0 +1,331 @@
+# React Native / Expo pipeline (sanitized showcase copy).
+# Android builds run locally in a Docker builder image with an SSD cache;
+# iOS builds run in Expo EAS cloud. Every credential is a CI/CD variable.
+
+stages:
+  - test
+  - build-image
+  - build-apk
+  - cleanup
+  - build-expo-cloud
+  - deploy-TestFlight
+  - build-aab
+  - submit-store
+
+include:
+  - template: Security/Secret-Detection.gitlab-ci.yml
+  - template: Security/SAST.gitlab-ci.yml
+
+variables:
+  DOCKER_IMAGE: "mobile-app/android-builder:latest"
+
+# --------------------------------------------------------------
+# Reusable script snippets
+# --------------------------------------------------------------
+.snippets:
+  check_token: &check_token
+    - |
+      if [ -z "$EXPO_TOKEN" ]; then
+        echo "Error: EXPO_TOKEN is empty. If this branch is not protected, check whether the variable is marked Protected."
+        exit 1
+      fi
+  restore_cache: &restore_cache
+    - mkdir -p $CACHE_DIR/{npm,gradle,android-sdk/licenses,node_modules,expo_cache,eas_cache}
+    - LOCKSUM=$(md5sum package-lock.json | cut -d' ' -f1)
+    - CACHE_LOCKSUM_FILE=$CACHE_DIR/node_modules/.locksum
+    - |
+      if [ -f "$CACHE_LOCKSUM_FILE" ] && [ "$LOCKSUM" = "$(cat "$CACHE_LOCKSUM_FILE")" ]; then
+        echo "Restoring node_modules from SSD cache"
+        rsync -a $CACHE_DIR/node_modules/ ./node_modules/ || true
+      else
+        echo "Cache invalid or missing"
+        rm -rf ./node_modules
+      fi
+  save_cache: &save_cache
+    - rsync -a --delete ./node_modules/ $CACHE_DIR/node_modules/ || true
+    - echo "$LOCKSUM" > $CACHE_DIR/node_modules/.locksum
+  clear_gradle_locks: &clear_gradle_locks
+    - find $CACHE_DIR/gradle/caches/ -name "*.lock" -type f -delete 2>/dev/null || true
+
+# --------------------------------------------------------------
+# Test & security scans
+# --------------------------------------------------------------
+test_job:
+  stage: test
+  image: node:alpine
+  script:
+    - node -v
+    - npm -v
+  rules:
+    - if: "$CI_COMMIT_BRANCH"
+  tags:
+    - mobile-docker
+
+sast:
+  rules:
+    - when: never
+
+semgrep-sast:
+  when: manual
+  rules:
+    - if: '$CI_COMMIT_BRANCH != "main"'
+  tags:
+    - mobile-docker
+
+secret_detection:
+  when: manual
+  rules:
+    - if: '$CI_COMMIT_BRANCH != "main"'
+  tags:
+    - mobile-docker
+
+# --------------------------------------------------------------
+# Builder image: rebuilt only when dependencies change
+# --------------------------------------------------------------
+build-image:
+  stage: build-image
+  script:
+    - docker builder prune -af || true
+    - docker image prune -f || true
+    - git config --global --add safe.directory $CI_PROJECT_DIR
+    - docker build --pull --build-arg USER_ID=$(id -u) --build-arg GROUP_ID=$(id -g) -t $DOCKER_IMAGE .
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+      when: never
+    - if: '$CI_COMMIT_BRANCH == "main"'
+      when: never
+    - changes:
+        - Dockerfile
+        - package.json
+        - package-lock.json
+      when: on_success
+    - when: never
+  tags:
+    - mobile-deploy
+
+# --------------------------------------------------------------
+# Android: local EAS build inside the builder container
+# --------------------------------------------------------------
+.android_local_build:
+  script:
+    - *check_token
+    - SAFE_REF_NAME=$(echo "$CI_COMMIT_REF_NAME" | tr '/ ' '__')
+    - *restore_cache
+    - *clear_gradle_locks
+    - |
+      docker run --rm \
+        -e EXPO_TOKEN="$EXPO_TOKEN" \
+        -e GRADLE_USER_HOME=/home/appuser/.gradle \
+        -e ANDROID_SDK_ROOT=/home/appuser/android-sdk \
+        -e NPM_CONFIG_CACHE=/home/appuser/.npm-cache \
+        -e GRADLE_OPTS="-Xmx6g -Dorg.gradle.daemon=false -Dorg.gradle.parallel=true -Dorg.gradle.caching=true" \
+        -v $CI_PROJECT_DIR:/app:rw \
+        -v $CACHE_DIR/gradle:/home/appuser/.gradle:rw \
+        -v $CACHE_DIR/android-sdk:/home/appuser/android-sdk:rw \
+        -v $CACHE_DIR/npm:/home/appuser/.npm-cache:rw \
+        -v $CACHE_DIR/expo_cache:/home/appuser/.expo:rw \
+        -v $CACHE_DIR/eas_cache:/home/appuser/.cache/eas-cli:rw \
+        -w /app \
+        $DOCKER_IMAGE /bin/bash -lc "
+          git config --global --add safe.directory /app
+          node -v && java -version && \
+          if [ ! -f \$ANDROID_SDK_ROOT/cmdline-tools/cmdline-tools/bin/sdkmanager ]; then
+            mkdir -p \$ANDROID_SDK_ROOT/cmdline-tools \
+            && cd \$ANDROID_SDK_ROOT/cmdline-tools \
+            && wget -q https://dl.google.com/android/repository/commandlinetools-linux-11076708_latest.zip -O cmdline-tools.zip \
+            && unzip -q cmdline-tools.zip -d \$ANDROID_SDK_ROOT/cmdline-tools \
+            && rm cmdline-tools.zip
+          fi && \
+          yes | \$ANDROID_SDK_ROOT/cmdline-tools/cmdline-tools/bin/sdkmanager --sdk_root=\$ANDROID_SDK_ROOT --licenses || true && \
+          yes | \$ANDROID_SDK_ROOT/cmdline-tools/cmdline-tools/bin/sdkmanager --sdk_root=\$ANDROID_SDK_ROOT \
+              'platform-tools' 'platforms;android-35' 'build-tools;35.0.0' 'cmake;3.22.1' || true && \
+          cd /app && \
+          if [ ! -d node_modules ] || [ -z \"\$(ls -A node_modules 2>/dev/null)\" ]; then
+            npm install --legacy-peer-deps --unsafe-perm=true
+          fi && \
+          eas build --platform android --profile $EAS_PROFILE --local --non-interactive $EXTRA_EAS_FLAGS --output ./app-$SAFE_REF_NAME.$BUILD_EXT
+        "
+    - *save_cache
+  needs:
+    - job: build-image
+      optional: true
+  tags:
+    - mobile-deploy
+
+build-apk:
+  extends: .android_local_build
+  stage: build-apk
+  variables:
+    EAS_PROFILE: preview
+    BUILD_EXT: apk
+    EXTRA_EAS_FLAGS: ""
+  artifacts:
+    paths:
+      - app-*.apk
+    expire_in: 7 days
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+      when: never
+    - if: '$CI_COMMIT_BRANCH == "main"'
+      when: never
+    - if: "$CI_COMMIT_BRANCH"
+      when: manual
+      allow_failure: true
+  timeout: 2h
+
+build-apk(clear-cache):
+  extends: build-apk
+  variables:
+    EXTRA_EAS_FLAGS: "--clear-cache"
+
+cleanup-runner:
+  stage: cleanup
+  script:
+    - docker builder prune -af || true
+    - docker image prune -f || true
+    - *clear_gradle_locks
+  needs:
+    - job: build-apk
+      optional: true
+  when: manual
+  tags:
+    - mobile-deploy
+
+# --------------------------------------------------------------
+# iOS: Expo EAS cloud build, then TestFlight
+# --------------------------------------------------------------
+build-expo-cloud-ios:
+  stage: build-expo-cloud
+  script:
+    - *check_token
+    - *restore_cache
+    - |
+      docker run --rm \
+        -e EXPO_TOKEN="$EXPO_TOKEN" \
+        -v $CI_PROJECT_DIR:/app:rw \
+        -v $CACHE_DIR/npm:/home/appuser/.npm-cache:rw \
+        -v $CACHE_DIR/expo_cache:/home/appuser/.expo:rw \
+        -v $CACHE_DIR/eas_cache:/home/appuser/.cache/eas-cli:rw \
+        -w /app \
+        $DOCKER_IMAGE /bin/bash -lc "
+          set -e
+          git config --global --add safe.directory /app
+          if [ ! -d node_modules ] || [ -z \"\$(ls -A node_modules 2>/dev/null)\" ]; then
+            npm ci --legacy-peer-deps --unsafe-perm=true
+          fi
+          eas build --platform ios --profile production --non-interactive --wait --clear-cache
+          eas build:list --limit=1 --platform=ios --status=finished --non-interactive --json \
+            | jq -r '.[0].artifacts.buildUrl' > /app/expo_build_ios_url.txt
+        "
+    - *save_cache
+  artifacts:
+    paths:
+      - expo_build_ios_url.txt
+    expire_in: 7 days
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "main"'
+      when: never
+    - if: "$CI_COMMIT_BRANCH"
+  when: manual
+  timeout: 10h
+  tags:
+    - mobile-deploy
+
+.default-expo-cloud:
+  image: node:22-slim
+  before_script:
+    - apt-get update && apt-get install -y git jq curl gettext
+    - npm install -g eas-cli
+    - *check_token
+    - npm ci --legacy-peer-deps --unsafe-perm=true
+
+submit-expo-cloud-ios:
+  extends: .default-expo-cloud
+  stage: deploy-TestFlight
+  script:
+    - echo "$ASC_PRIVATE_KEY" > asc_key.p8
+    # eas.json holds only $PLACEHOLDERS; real Apple IDs are injected here and never committed
+    - mv eas.json eas.template.json
+    - envsubst < eas.template.json > eas.json
+    - BUILD_URL=$(eas build:list --limit=1 --platform=ios --status=finished --non-interactive --json | jq -r '.[0].artifacts.buildUrl')
+    - |
+      if [ -z "$BUILD_URL" ] || [ "$BUILD_URL" = "null" ]; then
+        echo "Error: no finished iOS build found on EAS. Run build-expo-cloud-ios first."
+        exit 1
+      fi
+    - eas submit --platform ios --url "$BUILD_URL" -e production --non-interactive --wait
+  after_script:
+    - rm -f asc_key.p8
+  when: manual
+  tags:
+    - mobile-docker
+
+# --------------------------------------------------------------
+# Release: signed AAB from main, then the stores
+# --------------------------------------------------------------
+build-aab:
+  extends: .android_local_build
+  stage: build-aab
+  variables:
+    EAS_PROFILE: production
+    BUILD_EXT: aab
+    EXTRA_EAS_FLAGS: "--clear-cache"
+  artifacts:
+    paths:
+      - app-*.aab
+    expire_in: 7 days
+  when: manual
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "main"'
+
+submit-play-store:
+  stage: submit-store
+  script:
+    - *check_token
+    - *restore_cache
+    - |
+      docker run --rm \
+        -e EXPO_TOKEN="$EXPO_TOKEN" \
+        -e GOOGLE_SERVICE_ACCOUNT_JSON="$GOOGLE_SERVICE_ACCOUNT_JSON" \
+        -v $CI_PROJECT_DIR:/app:rw \
+        -v $CACHE_DIR/npm:/home/appuser/.npm-cache:rw \
+        -v $CACHE_DIR/expo_cache:/home/appuser/.expo:rw \
+        -v $CACHE_DIR/eas_cache:/home/appuser/.cache/eas-cli:rw \
+        -w /app \
+        $DOCKER_IMAGE /bin/bash -lc "
+          git config --global --add safe.directory /app;
+          if [ ! -d node_modules ] || [ -z \"\$(ls -A node_modules 2>/dev/null)\" ]; then
+            npm ci --legacy-peer-deps --unsafe-perm=true;
+          fi;
+          echo \"\$GOOGLE_SERVICE_ACCOUNT_JSON\" > service-account.json;
+          eas submit --platform android --path app-*.aab --non-interactive;
+          SUBMIT_EXIT_CODE=\$?;
+          rm -f service-account.json;
+          exit \$SUBMIT_EXIT_CODE
+        "
+    - *save_cache
+  when: manual
+  needs:
+    - job: build-aab
+      artifacts: true
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "main"'
+  tags:
+    - mobile-deploy
+
+submit-huawei-appgallery:
+  image: ruby:3.2
+  stage: submit-store
+  before_script:
+    - gem install bundler:2.7.2 -NV
+    - bundle _2.7.2_ install
+  script:
+    - bundle _2.7.2_ exec fastlane huawei_upload
+  when: manual
+  needs:
+    - job: build-aab
+      artifacts: true
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "main"'
+  tags:
+    - mobile-docker

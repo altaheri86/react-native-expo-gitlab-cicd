@@ -1,0 +1,15 @@
+node_modules
+npm-debug.*
+dist
+.expo
+.git
+.gitlab
+.gitlab-ci.yml
+*.jks
+*.p8
+*.p12
+*.key
+*.mobileprovision
+*.orig.*
+web-build
+.DS_Store

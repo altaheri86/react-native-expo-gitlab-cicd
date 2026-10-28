@@ -1,0 +1,48 @@
+{
+  "cli": {
+    "version": ">= 0.47.0"
+  },
+  "build": {
+    "development": {
+      "developmentClient": true,
+      "distribution": "internal",
+      "channel": "development",
+      "ios": { "image": "macos-sequoia-15.6-xcode-26.2" },
+      "android": { "buildType": "apk", "image": "latest" }
+    },
+    "preview": {
+      "distribution": "internal",
+      "channel": "preview",
+      "ios": { "image": "macos-sequoia-15.6-xcode-26.2" },
+      "android": { "buildType": "apk", "image": "latest" }
+    },
+    "preproduction": {
+      "distribution": "internal",
+      "channel": "preproduction",
+      "ios": { "image": "macos-sequoia-15.6-xcode-26.2" },
+      "android": { "buildType": "apk", "image": "latest" }
+    },
+    "production": {
+      "distribution": "store",
+      "channel": "production",
+      "ios": { "image": "macos-sequoia-15.6-xcode-26.2" }
+    }
+  },
+  "submit": {
+    "production": {
+      "ios": {
+        "appleId": "$APPLE_ID",
+        "ascAppId": "$ASC_APP_ID",
+        "appleTeamId": "$APPLE_TEAM_ID",
+        "ascApiKeyPath": "./asc_key.p8",
+        "ascApiKeyIssuerId": "$ASC_ISSUER_ID",
+        "ascApiKeyId": "$ASC_KEY_ID"
+      },
+      "android": {
+        "serviceAccountKeyPath": "./service-account.json",
+        "track": "production",
+        "releaseStatus": "draft"
+      }
+    }
+  }
+}
